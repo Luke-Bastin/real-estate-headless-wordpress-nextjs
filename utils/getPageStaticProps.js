@@ -17,28 +17,28 @@ export const getPageStaticProps = async (context) => {
           ... on Page {
             id
             blocks(postTemplate: false)
-           seo {
-  opengraphDescription
-  opengraphTitle
-  twitterDescription
-  twitterTitle
-  title
-  metaDesc
-  canonical
-}
+            seo {
+              opengraphDescription
+              opengraphTitle
+              twitterDescription
+              twitterTitle
+              title
+              metaDesc
+              canonical
+            }
           }
           ... on Property {
             id
             blocks(postTemplate: false)
-           seo {
-  opengraphDescription
-  opengraphTitle
-  twitterDescription
-  twitterTitle
-  title
-  metaDesc
-  canonical
-}
+            seo {
+              opengraphDescription
+              opengraphTitle
+              twitterDescription
+              twitterTitle
+              title
+              metaDesc
+              canonical
+            }
           }
         }
         acfOptionsMainMenu {
@@ -84,16 +84,21 @@ export const getPageStaticProps = async (context) => {
     };
   }
 
+  const blocks = cleanAndTransformBlocks(data.nodeByUri.blocks || []);
+
   return {
     props: {
       seo: data.nodeByUri.seo,
-      blocks: cleanAndTransformBlocks(data.nodeByUri.blocks || []),
+      blocks,
       menu: data.acfOptionsMainMenu ?? null,
-      items: mapMainMenuItems(data.acfOptionsMainMenu?.mainMenu?.menuItems || []),
+      items: mapMainMenuItems(
+        data.acfOptionsMainMenu?.mainMenu?.menuItems || []
+      ),
       callToActionLabel:
         data.acfOptionsMainMenu?.mainMenu?.callToActionButton?.label || null,
       callToActionDestination:
-        data.acfOptionsMainMenu?.mainMenu?.callToActionButton?.destination?.uri || null,
+        data.acfOptionsMainMenu?.mainMenu?.callToActionButton?.destination?.uri ||
+        null,
     },
   };
 };

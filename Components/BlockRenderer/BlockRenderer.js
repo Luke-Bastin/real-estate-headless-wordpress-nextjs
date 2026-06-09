@@ -11,16 +11,26 @@ import { FormspreeForm } from "Components/FormspreeForm";
 import { PropertyFeatures } from "Components/PropertyFeatures";
 import { Gallery } from "Components/Gallery";
 import { TickItem } from "Components/TickItem";
+import { TickItemList } from "Components/TickItemList";
 
 export const BlockRenderer = ({ blocks = [] }) => {
   return blocks.map((block) => {
     switch (block.name) {
+
+      case "next/tick-item-list": {
+        return (
+        <TickItemList key={block.id}>
+          <BlockRenderer blocks={block.innerBlocks} />
+        </TickItemList>);
+}
+
       case "acf/tick-item": {
         return (
-        <TickItem key={block.id}>
-          <BlockRenderer blocks={block.innerBlocks} />
-        </TickItem>);
+          <TickItem key={block.id} as={block.as || "div"}>
+            <BlockRenderer blocks={block.innerBlocks} />
+          </TickItem>);
       }
+
       case "core/gallery": {
         return (
           <Gallery 
