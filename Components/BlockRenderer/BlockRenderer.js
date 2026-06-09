@@ -12,6 +12,8 @@ import { PropertyFeatures } from "Components/PropertyFeatures";
 import { Gallery } from "Components/Gallery";
 import { TickItem } from "Components/TickItem";
 import { TickItemList } from "Components/TickItemList";
+import { OrderedList } from "Components/OrderedList";
+import { OrderedListItem } from "Components/OrderedListItem";
 
 export const BlockRenderer = ({ blocks = [] }) => {
   return blocks.map((block) => {
@@ -29,6 +31,27 @@ export const BlockRenderer = ({ blocks = [] }) => {
           <TickItem key={block.id} as={block.as || "div"}>
             <BlockRenderer blocks={block.innerBlocks} />
           </TickItem>);
+      }
+
+      case "core/list": {
+        if (!block.attributes?.ordered) {
+          return null;
+        }
+
+        return (
+          <OrderedList key={block.id}>
+            <BlockRenderer blocks={block.innerBlocks} />
+          </OrderedList>);
+      }
+
+      case "core/list-item": {
+        return (
+          <OrderedListItem
+            key={block.id}
+            content={block.attributes.content}
+          >
+            <BlockRenderer blocks={block.innerBlocks} />
+          </OrderedListItem>);
       }
 
       case "core/gallery": {
